@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ross Stores — Agentic Procurement Advisor</title>
+<style>
+  :root {
+    --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e;
+    --muted: #898781; --grid: #e1e0d9; --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --s1: #2a78d6; --s2: #1baf7a; --s3: #eda100; --s4: #008300;
+    --blue-light: #9ec5f4; --blue: #2a78d6;
+    --good: #0ca30c; --warn: #fab219; --crit: #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7;
+      --muted: #898781; --grid: #2c2c2a; --baseline: #383835;
+      --border: rgba(255,255,255,0.10);
+      --s1: #3987e5; --s2: #199e70; --s3: #c98500; --s4: #008300;
+      --blue-light: #1c5cab; --blue: #3987e5;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--page); color: var(--ink);
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+         padding: 24px 16px 64px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  h1 { font-size: 1.7rem; margin-bottom: 4px; }
+  .sub { color: var(--ink2); margin-bottom: 4px; }
+  .note { color: var(--muted); font-size: .82rem; margin-bottom: 20px; }
+  .card { background: var(--surface); border: 1px solid var(--border);
+          border-radius: 10px; padding: 16px 18px; }
+  .controls { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; margin-bottom: 18px; }
+  .controls label { display: block; font-size: .78rem; color: var(--muted); margin-bottom: 4px; }
+  select { background: var(--surface); color: var(--ink); border: 1px solid var(--baseline);
+           border-radius: 8px; padding: 8px 10px; font: inherit; min-width: 220px; }
+  .fixed { color: var(--ink2); font-size: .85rem; padding-bottom: 9px; }
+  .decision { border-left: 6px solid var(--muted); margin-bottom: 16px; }
+  .decision h2 { font-size: 1.2rem; margin-bottom: 6px; }
+  .decision p { color: var(--ink2); }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+           gap: 12px; margin-bottom: 16px; }
+  .tile .k { font-size: .78rem; color: var(--muted); }
+  .tile .v { font-size: 1.45rem; font-weight: 700; }
+  .tile .d { font-size: .8rem; color: var(--ink2); }
+  .grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+           gap: 12px; margin-bottom: 16px; }
+  .chart h3 { font-size: .92rem; margin-bottom: 12px; }
+  .hbar-row { display: grid; grid-template-columns: 88px 1fr 52px; align-items: center;
+              gap: 8px; margin-bottom: 7px; font-size: .8rem; color: var(--ink2); }
+  .hbar-track { height: 14px; }
+  .hbar { height: 14px; border-radius: 0 4px 4px 0; background: var(--blue-light); }
+  .hbar.hot { background: var(--blue); }
+  .hbar-val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .stack { display: flex; height: 30px; border-radius: 4px; overflow: hidden; margin: 10px 0 8px; }
+  .stack div { border-right: 2px solid var(--surface); }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .78rem; color: var(--ink2); }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+              margin-right: 5px; vertical-align: baseline; }
+  svg text { fill: var(--muted); font-size: 10px; font-family: inherit; }
+  .agents { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr));
+            gap: 12px; margin-bottom: 16px; }
+  .agent h3 { font-size: .95rem; margin-bottom: 6px; }
+  .agent .tag { font-size: .75rem; font-weight: 700; letter-spacing: .03em;
+                text-transform: uppercase; color: var(--blue); }
+  .agent p { color: var(--ink2); font-size: .88rem; margin-top: 6px; }
+  .agent ul { margin: 8px 0 0 18px; color: var(--ink2); font-size: .85rem; }
+  footer { margin-top: 28px; color: var(--muted); font-size: .8rem; }
+  a { color: var(--blue); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🛒 Ross Stores — Agentic Procurement Advisor</h1>
+  <p class="sub">Five AI agents (Tariff · Geopolitics · Trend · Finance · Chief Decision) answer:
+     <strong>should we buy, how much, and when?</strong></p>
+  <p class="note" id="note"></p>
+
+  <div class="controls card">
+    <div><label for="cat">Category</label><select id="cat"></select></div>
+    <div><label for="brand">Brand / supplier</label><select id="brand"></select></div>
+    <div class="fixed" id="fixed"></div>
+  </div>
+
+  <div class="card decision" id="decision"></div>
+  <div class="tiles" id="tiles"></div>
+
+  <div class="grid2">
+    <div class="card chart" id="chart-tariff"></div>
+    <div class="card chart" id="chart-trend"></div>
+  </div>
+  <div class="grid2">
+    <div class="card chart" id="chart-landed"></div>
+    <div class="card chart" id="chart-shift"></div>
+  </div>
+
+  <div class="agents" id="agents"></div>
+  <div class="card agent" id="conditions"></div>
+
+  <footer>Static demo generated from real multi-agent runs (Google Gemini) on synthetic mid-2026
+    trade data. Live interactive version runs on Streamlit; source: <code>agents.py</code> /
+    <code>app.py</code>.</footer>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString('en-US');
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+document.getElementById('note').textContent =
+  `Precomputed agent runs from ${D.generated} · requested quantity ${fmt(D.params.requested_qty)} units · target margin ${D.params.target_margin_pct}%`;
+$('fixed').innerHTML = `Requested: <strong>${fmt(D.params.requested_qty)}</strong> units · target margin <strong>${D.params.target_margin_pct}%</strong>`;
+
+const cats = [...new Set(D.brands.map(b => b.category))].sort();
+$('cat').innerHTML = cats.map(c => `<option>${c}</option>`).join('');
+
+function fillBrands() {
+  const list = D.brands.filter(b => b.category === $('cat').value);
+  $('brand').innerHTML = list.map(b => `<option>${b.brand}</option>`).join('');
+}
+
+const STYLE = {
+  YES:         { color: 'var(--good)', icon: '✅', label: 'PROCURE' },
+  PARTIAL_YES: { color: 'var(--warn)', icon: '🟡', label: 'PARTIAL BUY' },
+  NO:          { color: 'var(--crit)', icon: '🛑', label: 'DO NOT PROCURE' },
+};
+
+function hbarChart(el, title, rows, hotKey) {
+  const max = Math.max(...rows.map(r => r.v), 1);
+  el.innerHTML = `<h3>${title}</h3>` + rows.map(r => `
+    <div class="hbar-row">
+      <span>${r.k}</span>
+      <span class="hbar-track"><span class="hbar ${r.k === hotKey ? 'hot' : ''}"
+        style="display:block;width:${Math.max(100 * r.v / max, 1)}%"></span></span>
+      <span class="hbar-val">${r.v.toFixed(1)}%</span>
+    </div>`).join('');
+}
+
+function lineChart(el, title, months, series) {
+  const W = 460, H = 190, L = 30, B = 24, T = 8, R = 8;
+  const all = series.flatMap(s => s.data);
+  const lo = Math.min(...all) * 0.9, hi = Math.max(...all) * 1.05;
+  const x = i => L + (W - L - R) * i / (months.length - 1);
+  const y = v => T + (H - T - B) * (1 - (v - lo) / (hi - lo));
+  let g = '';
+  for (let k = 0; k <= 3; k++) {
+    const v = lo + (hi - lo) * k / 3;
+    g += `<line x1="${L}" y1="${y(v)}" x2="${W - R}" y2="${y(v)}" stroke="var(--grid)"/>` +
+         `<text x="${L - 4}" y="${y(v) + 3}" text-anchor="end">${v.toFixed(0)}</text>`;
+  }
+  months.forEach((m, i) => {
+    if (i % 3 === 0) g += `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${m.slice(2)}</text>`;
+  });
+  const paths = series.map(s =>
+    `<polyline fill="none" stroke="${s.color}" stroke-width="2" points="${
+      s.data.map((v, i) => `${x(i)},${y(v)}`).join(' ')}"/>`).join('');
+  el.innerHTML = `<h3>${title}</h3>
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%">${g}${paths}</svg>
+    <div class="legend">${series.map(s =>
+      `<span><i style="background:${s.color}"></i>${s.name}</span>`).join('')}</div>`;
+}
+
+function render() {
+  const brand = D.brands.find(b => b.brand === $('brand').value);
+  const r = D.results[brand.brand];
+  if (!r) { $('decision').innerHTML = 'No precomputed result for this brand.'; return; }
+  const dec = r.decision, st = STYLE[dec.decision] || STYLE.NO;
+
+  $('decision').style.borderLeftColor = st.color;
+  $('decision').innerHTML =
+    `<h2>${st.icon} ${st.label} — ${brand.brand} (${brand.country})</h2><p>${dec.rationale || ''}</p>`;
+
+  $('tiles').innerHTML = [
+    ['Recommended quantity', `${fmt(dec.recommended_qty)} units`, `requested ${fmt(D.params.requested_qty)}`],
+    ['Gross margin', `${r.finance.gross_margin_pct}%`, `target ${D.params.target_margin_pct}%`],
+    ['Geopolitical risk', `${r.geopolitics.risk_score ?? '—'}/10`, r.geopolitics.deal_status || ''],
+    ['Confidence', String(dec.confidence || '—'), dec.order_timing || ''],
+  ].map(([k, v, d]) =>
+    `<div class="card tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`
+  ).join('');
+
+  hbarChart($('chart-tariff'),
+    `Current US tariff on ${brand.category} by origin — ${brand.country} highlighted`,
+    D.tariffs[brand.category].map(t => ({ k: t.country, v: t.current_tariff_pct })),
+    brand.country);
+
+  const tr = D.trends[brand.category];
+  lineChart($('chart-trend'), `${brand.category}: demand & social buzz, last 12 months`,
+    tr.map(t => t.month),
+    [{ name: 'Demand index', color: css('--s1'), data: tr.map(t => t.demand_index) },
+     { name: 'Social buzz', color: css('--s2'), data: tr.map(t => t.social_buzz_score) }]);
+
+  const lc = r.tariff.landed_cost;
+  const parts = [['FOB cost', lc.fob, '--s1'], ['Import duty', lc.duty, '--s2'],
+                 ['Freight', lc.freight, '--s3'], ['Handling', lc.handling, '--s4']];
+  $('chart-landed').innerHTML =
+    `<h3>Landed cost per unit: $${lc.landed.toFixed(2)} (retail $${r.finance.retail_price.toFixed(2)})</h3>
+     <div class="stack">${parts.map(([n, v, c]) =>
+       `<div style="width:${100 * v / lc.landed}%;background:var(${c})" title="${n}: $${v.toFixed(2)}"></div>`).join('')}</div>
+     <div class="legend">${parts.map(([n, v, c]) =>
+       `<span><i style="background:var(${c})"></i>${n} $${v.toFixed(2)}</span>`).join('')}</div>`;
+
+  hbarChart($('chart-shift'), `Tariff shift for ${brand.country} ${brand.category}`,
+    [{ k: 'Base', v: r.tariff.base_tariff_pct }, { k: 'Current', v: r.tariff.current_tariff_pct }],
+    'Current');
+
+  const t = r.tariff, g_ = r.geopolitics, tn = r.trend, f = r.finance;
+  $('agents').innerHTML = [
+    ['🧾 Tariff Agent', `Risk: ${String(t.tariff_risk || '').toUpperCase()} · duty ${t.duty_share_of_cost_pct ?? '—'}% of landed cost`,
+     t.summary, t.watch_items],
+    ['🌍 Geopolitics Agent', `Risk ${g_.risk_score ?? '—'}/10 · deal ${g_.deal_status || '—'}`,
+     `${g_.summary || ''} <em>Outlook:</em> ${g_.outlook_6_months || ''}`, g_.key_events],
+    ['📈 Trend Agent', `Demand ${String(tn.demand_outlook || '').toUpperCase()} · ${tn.trend_direction || ''} · next-quarter forecast ${fmt(tn.next_quarter_forecast_units || 0)} units`,
+     `${tn.summary || ''} <em>${tn.seasonal_note || ''}</em>`, null],
+    ['💰 Finance Agent', `${String(f.viability || '').toUpperCase()} · landed $${f.landed_cost_per_unit.toFixed(2)} · margin ${f.gross_margin_pct}%`,
+     f.summary, f.levers],
+  ].map(([h, tag, body, items]) =>
+    `<div class="card agent"><h3>${h}</h3><div class="tag">${tag}</div><p>${body || ''}</p>${
+      items && items.length ? `<ul>${items.map(i => `<li>${i}</li>`).join('')}</ul>` : ''}</div>`
+  ).join('');
+
+  $('conditions').innerHTML =
+    `<h3>🧠 Chief Decision Agent — conditions & triggers</h3>
+     <p><strong>Order timing:</strong> ${dec.order_timing || '—'}</p>
+     <ul>${(dec.conditions || []).map(c => `<li>${c}</li>`).join('')}</ul>`;
+}
+
+$('cat').onchange = () => { fillBrands(); render(); };
+$('brand').onchange = render;
+fillBrands();
+render();
+</script>
+</body>
+</html>

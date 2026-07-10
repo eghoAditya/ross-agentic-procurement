@@ -1,0 +1,41 @@
+country,category,base_tariff_pct,current_tariff_pct,effective_date,trend
+China,Apparel,16.5,46.5,2026-04-01,rising
+China,Footwear,20.0,50.0,2026-04-01,rising
+China,Home Goods,8.4,38.4,2026-04-01,rising
+China,Accessories,11.0,41.0,2026-04-01,rising
+China,Beauty,6.5,36.5,2026-04-01,rising
+Vietnam,Apparel,16.5,26.5,2026-04-01,elevated
+Vietnam,Footwear,20.0,30.0,2026-04-01,elevated
+Vietnam,Home Goods,8.4,18.4,2026-04-01,elevated
+Vietnam,Accessories,11.0,21.0,2026-04-01,elevated
+Vietnam,Beauty,6.5,16.5,2026-04-01,elevated
+Bangladesh,Apparel,16.5,31.5,2026-04-01,elevated
+Bangladesh,Footwear,20.0,35.0,2026-04-01,elevated
+Bangladesh,Home Goods,8.4,23.4,2026-04-01,elevated
+Bangladesh,Accessories,11.0,26.0,2026-04-01,elevated
+Bangladesh,Beauty,6.5,21.5,2026-04-01,elevated
+India,Apparel,16.5,24.5,2026-04-01,elevated
+India,Footwear,20.0,28.0,2026-04-01,elevated
+India,Home Goods,8.4,16.4,2026-04-01,elevated
+India,Accessories,11.0,19.0,2026-04-01,elevated
+India,Beauty,6.5,14.5,2026-04-01,elevated
+Mexico,Apparel,16.5,0.0,2026-04-01,duty-free
+Mexico,Footwear,20.0,0.0,2026-04-01,duty-free
+Mexico,Home Goods,8.4,0.0,2026-04-01,duty-free
+Mexico,Accessories,11.0,0.0,2026-04-01,duty-free
+Mexico,Beauty,6.5,0.0,2026-04-01,duty-free
+Turkey,Apparel,16.5,21.5,2026-04-01,elevated
+Turkey,Footwear,20.0,25.0,2026-04-01,elevated
+Turkey,Home Goods,8.4,13.4,2026-04-01,elevated
+Turkey,Accessories,11.0,16.0,2026-04-01,elevated
+Turkey,Beauty,6.5,11.5,2026-04-01,elevated
+Indonesia,Apparel,16.5,29.5,2026-04-01,elevated
+Indonesia,Footwear,20.0,33.0,2026-04-01,elevated
+Indonesia,Home Goods,8.4,21.4,2026-04-01,elevated
+Indonesia,Accessories,11.0,24.0,2026-04-01,elevated
+Indonesia,Beauty,6.5,19.5,2026-04-01,elevated
+Italy,Apparel,16.5,26.5,2026-04-01,elevated
+Italy,Footwear,20.0,30.0,2026-04-01,elevated
+Italy,Home Goods,8.4,18.4,2026-04-01,elevated
+Italy,Accessories,11.0,21.0,2026-04-01,elevated
+Italy,Beauty,6.5,16.5,2026-04-01,elevated

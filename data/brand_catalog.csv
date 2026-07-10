@@ -1,0 +1,25 @@
+brand,country,category,fob_unit_cost_usd,moq_units,lead_time_days,quality_score,freight_per_unit_usd
+Lunara Apparel,China,Apparel,6.2,5000,38,7,0.85
+MeiTex Garments,China,Apparel,5.1,8000,40,6,0.85
+SaigonWear Co,Vietnam,Apparel,6.8,4000,34,7,0.8
+Hanoi Threads,Vietnam,Apparel,7.4,3000,36,8,0.8
+DhakaKnit Ltd,Bangladesh,Apparel,4.6,10000,48,6,0.95
+BengalWeave,Bangladesh,Apparel,4.9,8000,46,6,0.95
+IndiCotton Mills,India,Apparel,5.7,6000,42,7,0.9
+MonteVerde Moda,Mexico,Apparel,8.9,2000,14,7,0.35
+Anatolia Textiles,Turkey,Apparel,7.9,2500,22,8,1.1
+StepOne Footwear,China,Footwear,11.5,4000,42,7,0.85
+DaNang Soles,Vietnam,Footwear,12.8,3000,38,8,0.8
+Chennai Leatherworks,India,Footwear,13.6,2500,44,8,0.9
+Bandung Kicks,Indonesia,Footwear,12.1,3500,40,7,0.88
+Firenze Passo,Italy,Footwear,34.0,800,28,10,1.4
+Casa Loma Living,Mexico,Home Goods,9.8,1500,12,7,0.35
+Yiwu HomeStyle,China,Home Goods,6.4,6000,44,6,0.85
+Jaipur Artisan Co,India,Home Goods,8.2,2000,46,8,0.9
+Izmir Ceramics,Turkey,Home Goods,10.5,1200,24,9,1.1
+Guangzhou Trims,China,Accessories,3.1,10000,36,6,0.85
+Mumbai Adornments,India,Accessories,3.8,6000,40,7,0.9
+Jakarta Style Lab,Indonesia,Accessories,3.5,7000,42,6,0.88
+GlowEast Cosmetics,China,Beauty,2.9,12000,34,6,0.85
+K-Seoul Beauty*,Vietnam,Beauty,4.1,6000,32,8,0.8
+Veneto Skincare,Italy,Beauty,9.6,1500,26,9,1.4
